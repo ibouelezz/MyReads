@@ -1,7 +1,40 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import * as BooksAPI from "./BooksAPI";
 
-export class Search extends Component {
+import Book from "./Book";
+
+class Search extends Component {
+  state = {
+    query: "",
+    // results: [
+    //   {
+    //     imageLinks: { thumbnail: "" },
+    //     title: "React",
+    //     authors: "Me",
+    //   },
+    // ],
+    results: [],
+  };
+
+  handleSearch = (e) => {
+    console.log(e.target.value);
+    this.setState({ query: e.target.value });
+
+    if (e.target.value !== "") {
+      BooksAPI.search(e.target.value).then((res) => {
+        console.log(res);
+        if (res.length > 0) {
+          this.setState(() => ({
+            results: res,
+          }));
+        }
+      });
+    } else {
+      this.setState({ results: [] });
+    }
+  };
+
   render() {
     return (
       <div className="search-books">
@@ -18,11 +51,27 @@ export class Search extends Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-            <input type="text" placeholder="Search by title or author" />
+            <input
+              type="text"
+              placeholder="Search by title or author"
+              value={this.query}
+              onChange={this.handleSearch}
+            />
           </div>
         </div>
         <div className="search-books-results">
-          <ol className="books-grid" />
+          <ol className="books-grid">
+            {this.state.results.map((book) => {
+              return (
+                <Book
+                  key={book.id}
+                  backgroundImage={book.imageLinks.thumbnail}
+                  title={book.title}
+                  authors={book.authors}
+                />
+              );
+            })}
+          </ol>
         </div>
       </div>
     );
