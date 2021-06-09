@@ -65,9 +65,11 @@ class Search extends Component {
               return (
                 <Book
                   key={book.id}
+                  id={book.id}
                   backgroundImage={book.imageLinks.thumbnail}
                   title={book.title}
                   authors={book.authors}
+                  handleChange={this.props.handleChange}
                 />
               );
             })}

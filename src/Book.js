@@ -1,9 +1,17 @@
 import React, { Component } from "react";
 
 class Book extends Component {
+  state = {
+    selectedOption: "none",
+  };
+
+  handleChange = (e) => {
+    //   console.log(e.target);
+    console.log("Clicked, " + e.target.value);
+  };
   render() {
-    const { backgroundImage, title, authors } = this.props;
-    // console.log("authors", authors?.length);
+    const { id, backgroundImage, title, authors, handleChange } = this.props;
+
     return (
       <li>
         <div className="book">
@@ -17,7 +25,10 @@ class Book extends Component {
               }}
             />
             <div className="book-shelf-changer">
-              <select>
+              <select
+                onChange={(e) => handleChange(e, id)}
+                value={this.state.selectedOption}
+              >
                 <option value="move" disabled>
                   Move to...
                 </option>

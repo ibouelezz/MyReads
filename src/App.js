@@ -1,27 +1,69 @@
 import "./App.css";
 import React from "react";
 import { Route } from "react-router-dom";
-// import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from "./BooksAPI";
 
 import Home from "./Home";
 import Search from "./Search";
 
 class BooksApp extends React.Component {
   state = {
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
-    showSearchPage: false,
+    currentlyReading: [],
+    wantToRead: [],
+    read: [],
+  };
+
+  handleChange = (e, id) => {
+    e.persist();
+    const optionSelected = e.target.value;
+
+    BooksAPI.get(id).then((res) => {
+      console.log(res);
+
+      const new_item = {
+        id: res.id,
+        imageLinks: { thumbnail: res.imageLinks.thumbnail },
+        title: res.title,
+        authors: res.authors,
+      };
+
+      // filter the list
+      var filtered = Object.keys(this.state).map((shelf) => {
+        return this.state[shelf].filter((book) => {
+          return book.id !== id;
+        });
+      });
+
+      console.log(filtered);
+      this.setState({ currentlyReading: filtered[0] });
+      this.setState({ wantToRead: filtered[1] });
+      this.setState({ read: filtered[2] });
+
+      // this.setState({ filtered });
+      // this.setState(filtered);
+      console.log(this.state);
+
+      var joined = this.state[optionSelected].concat(new_item);
+      console.log("state before", this.state);
+      this.setState({ [optionSelected]: joined });
+      console.log("state after", this.state);
+    });
   };
 
   render() {
     return (
       <div className="app">
-        <Route exact path="/" component={Home} />
-        <Route path="/search" component={Search} />
+        <Route
+          exact
+          path="/"
+          render={() => (
+            <Home books={this.state} handleChange={this.handleChange} />
+          )}
+        />
+        <Route
+          path="/search"
+          render={() => <Search handleChange={this.handleChange} />}
+        />
       </div>
     );
   }
