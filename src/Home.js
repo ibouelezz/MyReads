@@ -16,18 +16,21 @@ class Home extends Component {
             <Bookshelf
               key="currentlyReading"
               shelfTitle="Currently Reading"
+              currentShelf="currentlyReading"
               books={books.currentlyReading}
               handleChange={handleChange}
             />
             <Bookshelf
               key="wantToRead"
               shelfTitle="Want to Read"
+              currentShelf="wantToRead"
               books={books.wantToRead}
               handleChange={handleChange}
             />
             <Bookshelf
               key="read"
               shelfTitle="Read"
+              currentShelf="read"
               books={books.read}
               handleChange={handleChange}
             />

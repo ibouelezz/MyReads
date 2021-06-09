@@ -7,7 +7,7 @@ class Bookshelf extends Component {
   };
 
   render() {
-    const { shelfTitle, books, handleChange } = this.props;
+    const { shelfTitle, currentShelf, books, handleChange } = this.props;
     return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">{shelfTitle}</h2>
@@ -19,6 +19,7 @@ class Bookshelf extends Component {
                   <Book
                     key={book.id}
                     id={book.id}
+                    currentShelf={currentShelf}
                     backgroundImage={book.imageLinks.thumbnail}
                     title={book.title}
                     authors={book.authors}
