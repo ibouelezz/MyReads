@@ -5,12 +5,15 @@ class Book extends Component {
     selectedOption: "none",
   };
 
-  handleChange = (e) => {
-    //   console.log(e.target);
-    console.log("Clicked, " + e.target.value);
-  };
   render() {
-    const { id, backgroundImage, title, authors, handleChange } = this.props;
+    const {
+      id,
+      backgroundImage,
+      title,
+      authors,
+      handleChange,
+      currentShelf,
+    } = this.props;
 
     return (
       <li>
@@ -26,8 +29,8 @@ class Book extends Component {
             />
             <div className="book-shelf-changer">
               <select
+                value={currentShelf || "none"}
                 onChange={(e) => handleChange(e, id)}
-                value={this.state.selectedOption}
               >
                 <option value="move" disabled>
                   Move to...

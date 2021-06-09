@@ -39,10 +39,6 @@ class BooksApp extends React.Component {
       this.setState({ wantToRead: filtered[1] });
       this.setState({ read: filtered[2] });
 
-      // this.setState({ filtered });
-      // this.setState(filtered);
-      console.log(this.state);
-
       var joined = this.state[optionSelected].concat(new_item);
       console.log("state before", this.state);
       this.setState({ [optionSelected]: joined });
@@ -62,7 +58,9 @@ class BooksApp extends React.Component {
         />
         <Route
           path="/search"
-          render={() => <Search handleChange={this.handleChange} />}
+          render={() => (
+            <Search books={this.state} handleChange={this.handleChange} />
+          )}
         />
       </div>
     );

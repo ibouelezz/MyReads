@@ -18,7 +18,7 @@ class Search extends Component {
   };
 
   handleSearch = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     this.setState({ query: e.target.value });
 
     if (e.target.value !== "") {
@@ -62,6 +62,37 @@ class Search extends Component {
         <div className="search-books-results">
           <ol className="books-grid">
             {this.state.results.map((book) => {
+              // Object.keys(this.props.books).map((shelf) => {
+              //   this.props.books[shelf].filter((b) => {
+              //     book.id === b.id;
+              //   });
+              // });
+
+              var currentShelf;
+              for (let i = 0; i < Object.keys(this.props.books).length; i++) {
+                // CATEGORY: Object.keys(this.props.books)[i]
+                // console.log(Object.keys(this.props.books)[i]);
+                // console.log(this.props.books[Object.keys(this.props.books)[i]]);
+                for (
+                  let j = 0;
+                  j < this.props.books[Object.keys(this.props.books)[i]].length;
+                  j++
+                ) {
+                  // console.log(this.props.books[Object.keys(this.props.books)[i]][j].id);
+                  if (
+                    book.id ===
+                    this.props.books[Object.keys(this.props.books)[i]][j].id
+                  )
+                    currentShelf = Object.keys(this.props.books)[i];
+                  // console.log("Book id: ", book.id);
+                  // console.log(
+                  //   this.props.books[Object.keys(this.props.books)[i]].length
+                  // );
+                }
+              }
+
+              // console.log(shelf);
+
               return (
                 <Book
                   key={book.id}
@@ -70,6 +101,7 @@ class Search extends Component {
                   title={book.title}
                   authors={book.authors}
                   handleChange={this.props.handleChange}
+                  currentShelf={currentShelf}
                 />
               );
             })}
