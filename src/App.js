@@ -17,6 +17,20 @@ class BooksApp extends React.Component {
     e.persist();
     const optionSelected = e.target.value;
 
+    if (optionSelected === "none") {
+      var filtered = Object.keys(this.state).map((shelf) => {
+        return this.state[shelf].filter((book) => {
+          return book.id !== id;
+        });
+      });
+
+      console.log(filtered);
+      this.setState({ currentlyReading: filtered[0] });
+      this.setState({ wantToRead: filtered[1] });
+      this.setState({ read: filtered[2] });
+      return;
+    }
+
     BooksAPI.get(id).then((res) => {
       console.log(res);
 
