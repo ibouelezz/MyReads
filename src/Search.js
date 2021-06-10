@@ -20,6 +20,8 @@ class Search extends Component {
           this.setState(() => ({
             results: res,
           }));
+        } else {
+          this.setState({ results: [] });
         }
       });
     } else {
