@@ -13,6 +13,25 @@ class BooksApp extends React.Component {
     read: [],
   };
 
+  componentDidMount() {
+    BooksAPI.getAll().then((res) => {
+      console.log(res);
+
+      res.map((book) => {
+        var item = {
+          id: book.id,
+          imageLinks: { thumbnail: book.imageLinks.thumbnail },
+          title: book.title,
+          authors: book.authors,
+          shelf: book.shelf,
+        };
+        var joined = this.state[book.shelf].concat(item);
+
+        this.setState({ [book.shelf]: joined });
+      });
+    });
+  }
+
   handleChange = (e, id) => {
     e.persist();
     const optionSelected = e.target.value;
