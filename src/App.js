@@ -7,13 +7,21 @@ import Home from "./Home";
 import Search from "./Search";
 
 class BooksApp extends React.Component {
-  state = {
-    currentlyReading: [],
-    wantToRead: [],
-    read: [],
-  };
+  constructor() {
+    super();
+    this.state = JSON.parse(window.localStorage.getItem("state")) || {
+      currentlyReading: [],
+      wantToRead: [],
+      read: [],
+    };
+  }
+
+  componentDidUpdate() {
+    window.localStorage.setItem("state", JSON.stringify(this.state));
+  }
 
   componentDidMount() {
+    if (localStorage.getItem("state") !== null) return;
     BooksAPI.getAll().then((res) => {
       console.log(res);
 
@@ -27,9 +35,10 @@ class BooksApp extends React.Component {
         };
         var joined = this.state[book.shelf].concat(item);
 
-        this.setState({ [book.shelf]: joined });
+        return this.setState({ [book.shelf]: joined });
       });
     });
+    // window.localStorage.setItem("state", JSON.stringify(this.state));
   }
 
   handleChange = (e, id) => {
@@ -47,6 +56,7 @@ class BooksApp extends React.Component {
       this.setState({ currentlyReading: filtered[0] });
       this.setState({ wantToRead: filtered[1] });
       this.setState({ read: filtered[2] });
+
       return;
     }
 
@@ -76,6 +86,8 @@ class BooksApp extends React.Component {
       console.log("state before", this.state);
       this.setState({ [optionSelected]: joined });
       console.log("state after", this.state);
+
+      // window.localStorage.setItem("state", JSON.stringify(this.state));
     });
   };
 

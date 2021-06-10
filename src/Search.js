@@ -69,9 +69,11 @@ class Search extends Component {
                 <Book
                   key={book.id}
                   id={book.id}
-                  backgroundImage={book.imageLinks.thumbnail}
+                  backgroundImage={
+                    book.imageLinks ? book.imageLinks.thumbnail : null
+                  }
                   title={book.title}
-                  authors={book.authors}
+                  authors={book.authors ? book.authors : null}
                   handleChange={this.props.handleChange}
                   currentShelf={currentShelf}
                 />
